@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Store, Adress, Contact
 
 
@@ -13,6 +14,7 @@ class ContactModelTest(TestCase):
         contact = Contact.objects.create(phone="123123123", email="asd@asd.pl")
 
         self.assertEqual(str(contact), "phone: 123123123, email: asd@asd.pl")
+
 
 class UserModelTest(TestCase):
     def test_user_model_exists(self):
@@ -37,6 +39,23 @@ class StoreModelTest(TestCase):
         store = Store.objects.create(name="store")
 
         self.assertEqual(str(store), "store")
+
+
+    def test_store_contact_exists(self):
+        store = Store.objects.create(name="test", details="test details", contact=Contact.objects.create(phone="123123123", email="test@store.pl"))
+        contact = Contact.objects.get(id=store.id)
+
+        self.assertTrue(contact is not None)
+
+    def test_store_delete_contact_cascades(self):
+        store = Store.objects.create(name="test", details="test details", contact=Contact.objects.create(phone="123123123", email="test@store.pl"))
+        store_id = store.id
+        store.contact.delete()
+        # contact = Contact.objects.filter(id=store_id)
+
+        store = Store.objects.filter(id=store_id)
+        contact = Contact.objects.filter(id=store_id)
+        self.assertEqual(str(store), 1)
 
 
 class AdressModelTest(TestCase):
