@@ -17,7 +17,7 @@ class Contact(models.Model):
     def __str__(self):
         return f"phone: {self.phone}, email: {self.email}"
 
-    
+   
 class User(User):
     contact = models.OneToOneField(
         Contact, on_delete = models.CASCADE,
