@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, Store, Adress, Contact
+from .models import User, Store, Adress, Contact, Bike
 
 
 class ContactModelTest(TestCase):
@@ -101,3 +101,9 @@ class StoreDetailsPageTest(TestCase):
         response = self.client.get(f'/store/{self.store.name}/')
         self.assertContains(response, self.store.name)
         self.assertContains(response, self.store.details)
+
+
+class BikeModelTest(TestCase):
+    def test_bike_model_exists(self):
+        bike = Bike.objects.count()
+        self.assertEqual(bike, 0)

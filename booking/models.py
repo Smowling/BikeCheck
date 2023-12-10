@@ -9,9 +9,8 @@ class Adress(models.Model):
 
     def __str__(self):
         return f'{self.city} {self.postcode}, {self.street} {self.street_number}'
-
-
    
+
 class User(User):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -24,6 +23,13 @@ class Store(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+
+class Bike(models.Model):
+    brand = models.CharField(max_length=30)
+    model = models.CharField(max_length=30)
+    year = models.CharField(max_length=4)
+    sn = models.CharField(max_length=30)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 
 class Contact(models.Model):
