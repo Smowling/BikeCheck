@@ -107,3 +107,16 @@ class BikeModelTest(TestCase):
     def test_bike_model_exists(self):
         bike = Bike.objects.count()
         self.assertEqual(bike, 0)
+
+    def test_bike_model_create(self):
+        user = User.objects.create(username="testUser")
+        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020")
+        count = Bike.objects.all().count()
+        self.assertEqual(count, 1)
+
+    def test_bike_model_delete_cascades(self):
+        user = User.objects.create(username="testUser")
+        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020")
+        user.delete()
+        count = Bike.objects.all().count()
+        self.assertEqual(count, 0)
