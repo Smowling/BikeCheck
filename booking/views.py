@@ -11,19 +11,23 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Store, User, Bike
 
 def index(request):
-    return render(request, 'booking/index.html')
+    stores = Store.objects.all()
+    return render(request, 'booking/index.html', {"stores": stores})
 
 
 def details(request, store_name):
     store = Store.objects.get(name=store_name)
     return render(request, 'booking/details.html', {'store_name': store.name, 'store': store})
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
+def user_settings(request):
+    return render(request, 'booking/settings.html')
 
-def login(request):
+
+def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -69,3 +73,6 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "booking/register.html")
+
+
+

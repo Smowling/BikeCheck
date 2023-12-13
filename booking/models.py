@@ -29,14 +29,14 @@ class Bike(models.Model):
     model = models.CharField(max_length=30)
     year = models.CharField(max_length=4)
     sn = models.CharField(max_length=30)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="bike_user", primary_key=True)
 
 
 class Contact(models.Model):
     phone = models.CharField(max_length=50)
     email = models.EmailField()
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="contact_store", null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_store" ,null=True)
 
     def __str__(self):
         return f"phone: {self.phone}, email: {self.email}"

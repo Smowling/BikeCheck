@@ -21,6 +21,9 @@
                 <a class="nav-link" href="{% url 'index' %}">Booking</a>
             </li>
             {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+            </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
