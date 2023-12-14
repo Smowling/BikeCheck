@@ -120,3 +120,19 @@ class BikeModelTest(TestCase):
         user.delete()
         count = Bike.objects.all().count()
         self.assertEqual(count, 0)
+
+
+class LoginPageTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="user", password="a")
+
+    def test_login_page_returns_correct_response(self):
+        response = self.client.get(f'/login/')
+        self.assertTemplateUsed(response, 'booking/login.html')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_login_page_contains_form(self):
+        response = self.client.get(f'/login/')
+        self.assertContains(response, '<form')
+        self.assertContains(response, 'csrfmiddlewaretoken')
+        self.assertContains(response, '<label for')
