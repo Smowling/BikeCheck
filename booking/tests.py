@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -125,8 +125,11 @@ class BikeModelTest(TestCase):
 
 class LoginPageTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username="user", password="a")
-
+        self.credentials = {
+                    'username': 'testuser',
+                    'password': 'secret'}
+        User.objects.create_user(**self.credentials)
+        
     def test_login_page_returns_correct_response(self):
         response = self.client.get(f'/login/')
         self.assertTemplateUsed(response, 'booking/login.html')
@@ -138,13 +141,9 @@ class LoginPageTest(TestCase):
         self.assertContains(response, 'csrfmiddlewaretoken')
 
     def test_login_form(self):
-        response = self.client.get(f'/login/')
-        response = self.client.post("/login/", {
-            "username": self.user.username,
-            "password": self.user.password
-        })
-        self.assertEqual(response.status_code, 200)
-        # self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
+        response = self.client.post('/login/', self.credentials, follow=True)
+        self.assertTrue(response.context["user"].is_active)
+        self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
       
 
 class RegisterPageTest(TestCase):
