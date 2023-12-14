@@ -136,6 +136,14 @@ class LoginPageTest(TestCase):
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
 
+    def test_login_form(self):
+        response = self.client.get(f'/login/')
+        response = self.client.post("/login/", {
+            "username": self.user.username,
+            "password": self.user.password
+        })
+        self.assertEqual(response.status_code, 200)
+      
 
 class RegisterPageTest(TestCase):
     
