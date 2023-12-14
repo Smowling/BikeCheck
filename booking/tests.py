@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Store, Adress, Contact, Bike
 
@@ -110,13 +111,13 @@ class BikeModelTest(TestCase):
 
     def test_bike_model_create(self):
         user = User.objects.create(username="testUser")
-        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020")
+        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020", owner=user)
         count = Bike.objects.all().count()
         self.assertEqual(count, 1)
 
     def test_bike_model_delete_cascades(self):
         user = User.objects.create(username="testUser")
-        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020")
+        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020", owner=user)
         user.delete()
         count = Bike.objects.all().count()
         self.assertEqual(count, 0)
@@ -143,6 +144,7 @@ class LoginPageTest(TestCase):
             "password": self.user.password
         })
         self.assertEqual(response.status_code, 200)
+        # self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
       
 
 class RegisterPageTest(TestCase):
