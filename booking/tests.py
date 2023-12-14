@@ -135,4 +135,16 @@ class LoginPageTest(TestCase):
         response = self.client.get(f'/login/')
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
-        self.assertContains(response, '<label for')
+
+
+class RegisterPageTest(TestCase):
+    
+    def test_register_page_returns_correct_response(self):
+        response = self.client.get(f'/register/')
+        self.assertTemplateUsed(response, 'booking/register.html')
+        self.assertEqual(response.status_code, 200)
+        
+    def test_login_page_contains_form(self):
+        response = self.client.get(f'/register/')
+        self.assertContains(response, '<form')
+        self.assertContains(response, 'csrfmiddlewaretoken')
