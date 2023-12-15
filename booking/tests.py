@@ -135,12 +135,12 @@ class LoginPageTest(TestCase):
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
 
-    def test_login_form(self):
+    def test_login_valid_credentials(self):
         response = self.client.post('/login/', self.credentials, follow=True)
         self.assertTrue(response.context["user"].is_active)
         self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
       
-    def test_login_error(self):
+    def test_login_invalid_credentials(self):
         credentials = {"username": "asd", "password": "asd"}
         response = self.client.post('/login/', credentials, follow=True)
         self.assertFalse(response.context["user"].is_active)

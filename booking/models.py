@@ -1,16 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 
-class Adress(models.Model):
-    city = models.CharField(max_length=80)
-    street = models.CharField(max_length=100)
-    street_number = models.CharField(max_length=10)
-    postcode = models.CharField(max_length=5)
-
-    def __str__(self):
-        return f'{self.city} {self.postcode}, {self.street} {self.street_number}'
-   
-
 class User(User):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -40,3 +30,16 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"phone: {self.phone}, email: {self.email}"
+
+
+class Adress(models.Model):
+    city = models.CharField(max_length=80)
+    street = models.CharField(max_length=100)
+    street_number = models.CharField(max_length=10)
+    postcode = models.CharField(max_length=5)
+
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="adress_store", null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="adress_user" ,null=True)
+
+    def __str__(self):
+        return f'{self.city} {self.postcode}, {self.street} {self.street_number}'
