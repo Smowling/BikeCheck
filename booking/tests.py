@@ -43,11 +43,9 @@ class StoreModelTest(TestCase):
         store = Store.objects.count()
         self.assertEqual(store, 0)
 
-
     def test_store_model_has_string_representation(self):
         store = Store.objects.create(name="store")
         self.assertEqual(str(store), "store")
-
 
     def test_store_contact_exists(self):
         store = Store.objects.create(name="test", details="test details")
@@ -70,7 +68,6 @@ class StoreModelTest(TestCase):
         self.assertEqual(contact, 0)
         
 
-
 class AdressModelTest(TestCase):
     def test_adress_model_exists(self):
         adress = Adress.objects.count()
@@ -90,13 +87,11 @@ class BookingIndexPageTest(TestCase):
 class StoreDetailsPageTest(TestCase):
     def setUp(self):
         self.store = Store.objects.create(name='bikecheck', details='bikecheck details')
-    
 
     def test_store_details_page_returns_200_response(self):
         response = self.client.get(f'/store/{self.store.name}/')
         self.assertTemplateUsed(response, 'booking/details.html')
         self.assertEqual(response.status_code, 200)
-
 
     def test_store_details_page_has_store_details(self):
         response = self.client.get(f'/store/{self.store.name}/')
@@ -145,9 +140,14 @@ class LoginPageTest(TestCase):
         self.assertTrue(response.context["user"].is_active)
         self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
       
+    def test_login_error(self):
+        credentials = {"username": "asd", "password": "asd"}
+        response = self.client.post('/login/', credentials, follow=True)
+        self.assertFalse(response.context["user"].is_active)
+        self.assertContains(response, "Invalid email and/or password.")
+
 
 class RegisterPageTest(TestCase):
-    
     def test_register_page_returns_correct_response(self):
         response = self.client.get(f'/register/')
         self.assertTemplateUsed(response, 'booking/register.html')
