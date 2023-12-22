@@ -17,7 +17,8 @@ def index(request):
 
 def details(request, store_name):
     store = Store.objects.get(name=store_name)
-    return render(request, 'booking/details.html', {'store_name': store.name, 'store': store})
+    details = {'store_name': store.name, 'store': store}
+    return render(request, 'booking/details.html', details)
 
 @login_required
 def logout_view(request):
@@ -42,9 +43,8 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "booking/login.html", {
-                "message": "Invalid email and/or password."
-            })
+            details = {"message": "Invalid email and/or password."}
+            return render(request, "booking/login.html", details)
     else:
         return render(request, "booking/login.html")
 
@@ -58,9 +58,8 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "booking/register.html", {
-                "message": "Passwords must match."
-            })
+            details = {"message": "Passwords must match."}
+            return render(request, "booking/register.html", details)
 
         # Attempt to create new user
         try:
@@ -68,9 +67,9 @@ def register(request):
             user.save()
         except IntegrityError as e:
             print(e)
-            return render(request, "booking/register.html", {
-                "message": "Email address already taken."
-            })
+            details = {"message": "Email address already taken."}
+            return render(request, "booking/register.html", details)
+        
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
