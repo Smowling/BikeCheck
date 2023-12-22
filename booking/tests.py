@@ -157,3 +157,20 @@ class RegisterPageTest(TestCase):
         response = self.client.get(f'/register/')
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
+
+
+class SettingsPageTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+                    'username': 'testuser',
+                    'password': 'secret'}
+        User.objects.create_user(**self.credentials)
+    
+    def test_settings_page_returns_correct_response(self):
+        response = self.client.get('/settings/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_settings_page_returns_correct_response_with_user(self):
+        response = self.client.post('/login/', self.credentials, follow=True)
+        response = self.client.get('/settings/')
+        self.assertEqual(response.status_code, 200)
