@@ -166,7 +166,7 @@ class SettingsPageTest(TestCase):
                     'password': 'secret'}
         User.objects.create_user(**self.credentials)
     
-    def test_settings_page_returns_correct_response(self):
+    def test_settings_page_returns_302_without_user(self):
         response = self.client.get('/settings/')
         self.assertEqual(response.status_code, 302)
 
@@ -174,3 +174,9 @@ class SettingsPageTest(TestCase):
         response = self.client.post('/login/', self.credentials, follow=True)
         response = self.client.get('/settings/')
         self.assertEqual(response.status_code, 200)
+
+    def test_settings_page_returns_correct_response_with_user(self):
+        response = self.client.post('/login/', self.credentials, follow=True)
+        response = self.client.get('/settings/')
+        self.assertContains(response, '<form')
+        self.assertContains(response, 'csrfmiddlewaretoken')
