@@ -196,4 +196,6 @@ class LogoutPageTest(TestCase):
         response = self.client.get('/logout/')
         self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
 
-
+    def test_logout_returns_302_without_user(self):
+        response = self.client.get('/logout/')
+        self.assertEqual(response.status_code, 302)
