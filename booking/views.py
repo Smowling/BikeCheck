@@ -19,6 +19,7 @@ def details(request, store_name):
     store = Store.objects.get(name=store_name)
     return render(request, 'booking/details.html', {'store_name': store.name, 'store': store})
 
+@login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))

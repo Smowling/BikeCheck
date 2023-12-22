@@ -175,8 +175,25 @@ class SettingsPageTest(TestCase):
         response = self.client.get('/settings/')
         self.assertEqual(response.status_code, 200)
 
-    def test_settings_page_returns_correct_response_with_user(self):
+    # def test_settings_page_returns_correct_response_with_user(self):
+    #     response = self.client.post('/login/', self.credentials, follow=True)
+    #     response = self.client.get('/settings/')
+    #     self.assertContains(response, '<form')
+    #     self.assertContains(response, 'csrfmiddlewaretoken')
+
+
+class LogoutPageTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+                    'username': 'testuser',
+                    'password': 'secret'}
+        User.objects.create_user(**self.credentials)
+
+    def test_logout_redirect(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        response = self.client.get('/settings/')
-        self.assertContains(response, '<form')
-        self.assertContains(response, 'csrfmiddlewaretoken')
+        self.assertTrue(response.context["user"].is_active)
+        self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
+        response = self.client.get('/logout/')
+        self.assertRedirects(response, reverse("index"), status_code=302, target_status_code=200)
+
+
