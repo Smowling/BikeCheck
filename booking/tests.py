@@ -175,11 +175,11 @@ class SettingsPageTest(TestCase):
         response = self.client.get('/settings/')
         self.assertEqual(response.status_code, 200)
 
-    # def test_settings_page_returns_correct_response_with_user(self):
-    #     response = self.client.post('/login/', self.credentials, follow=True)
-    #     response = self.client.get('/settings/')
-    #     self.assertContains(response, '<form')
-    #     self.assertContains(response, 'csrfmiddlewaretoken')
+    def test_settings_page_returns_correct_response_with_user(self):
+        response = self.client.post('/login/', self.credentials, follow=True)
+        response = self.client.get('/settings/')
+        self.assertContains(response, '<form')
+        self.assertContains(response, 'csrfmiddlewaretoken')
 
 
 class LogoutPageTest(TestCase):

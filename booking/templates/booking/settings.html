@@ -3,5 +3,11 @@
 {% block body %}
 
 <p>SETTINGS</p>
+    <h2>Adress</h2>
+    <form class="forms" method="POST" action="{% url 'settings' %}">
+        {{ form }}
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
 
 {% endblock %}
