@@ -181,6 +181,18 @@ class SettingsPageTest(TestCase):
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
 
+    def test_settings_page_add_address(self):
+        response = self.client.post('/login/', self.credentials, follow=True)
+        # response = self.client.get('/settings/')
+        data = {
+            "city": "city",
+            "street": "street",
+            "street_number": "number",
+            "postcode": "12323"
+        }
+        response = self.client.post('/settings/', data)
+        self.assertEqual(response.status_code, 302)
+        
 
 class LogoutPageTest(TestCase):
     def setUp(self):
