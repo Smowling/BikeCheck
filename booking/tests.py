@@ -183,7 +183,6 @@ class SettingsPageTest(TestCase):
 
     def test_settings_page_add_address(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        # response = self.client.get('/settings/')
         data = {
             "city": "city",
             "street": "street",
