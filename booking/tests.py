@@ -3,6 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import User, Store, Adress, Contact, Bike
+from .forms import AdressForm, BikeForm
 
 
 class ContactModelTest(TestCase):
@@ -164,8 +165,14 @@ class SettingsPageTest(TestCase):
         self.credentials = {
                     'username': 'testuser',
                     'password': 'secret'}
-        User.objects.create_user(**self.credentials)
-    
+        self.adress = {
+            'city': 'testCity',
+            'street': 'testStreet',
+            'street_number': '12a',
+            'postcode': '40553'
+        }
+        self.u = User.objects.create_user(**self.credentials)
+        
     def test_settings_page_returns_302_without_user(self):
         response = self.client.get('/settings/')
         self.assertEqual(response.status_code, 302)
@@ -210,3 +217,22 @@ class LogoutPageTest(TestCase):
     def test_logout_returns_302_without_user(self):
         response = self.client.get('/logout/')
         self.assertEqual(response.status_code, 302)
+
+
+class AdressFormTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+                    'username': 'testuser',
+                    'password': 'secret'}
+        self.u = User.objects.create_user(**self.credentials)
+
+    def test_adress_form(self):
+        data = {
+            "city": "city",
+            "street": "street",
+            "street_number": "number",
+            "postcode": "12323"
+        }
+        form = AdressForm(data=data)
+        self.assertTrue(form.is_valid())
+
