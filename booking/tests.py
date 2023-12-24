@@ -236,3 +236,12 @@ class AdressFormTest(TestCase):
         form = AdressForm(data=data)
         self.assertTrue(form.is_valid())
 
+    def test_adress_form_incorrect(self):
+        data = {
+            "city": "city",
+            "street": "street",
+            "street_number": "number",
+            "postcode": "123123123"
+            }
+        form = AdressForm(data=data)
+        self.assertFalse(form.is_valid())
