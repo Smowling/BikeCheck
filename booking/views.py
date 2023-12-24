@@ -8,7 +8,7 @@ from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Store, User, Bike
+from .models import Store, User, Bike, Adress
 from .forms import AdressForm
 
 def index(request):
@@ -28,15 +28,22 @@ def logout_view(request):
 
 @login_required
 def user_settings(request):
+    details = {
+        "form": AdressForm(),
+    }
     if request.method == "GET":
-        return render(request, 'booking/settings.html', {"form": AdressForm()})
+        adress = Adress.objects.filter(user=request.user)
+        if adress:
+            details["adress"] = adress
+        return render(request, 'booking/settings.html', details )
 
     form = AdressForm(request.POST)
     if not form.is_valid():
         return render(request, 'booking/settings.html', {"form": form})
 
     # all good, save redirect
-    auction = form.save(request.user)
+    user = User.objects.get(id = request.user.id)
+    auction = form.saveUser(user)
     return HttpResponseRedirect(reverse("settings"))
     
     return render(request, 'booking/settings.html')

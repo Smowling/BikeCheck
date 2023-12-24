@@ -4,6 +4,15 @@
 
 <p>SETTINGS</p>
     <h2>Adress</h2>
+    {% for adres in adress %}
+    <div class="adress"><p>
+        {{ adres.city }}
+        {{ adres.street }} 
+        {{ adres.street_number }} 
+        {{ adres.postcode }}
+    </p></div>
+    {% endfor %}
+    
     <form class="forms" method="POST" action="{% url 'settings' %}">
         {{ form }}
         {% csrf_token %}
