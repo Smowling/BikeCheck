@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Adress
+from .models import Adress, Bike
 
 class AdressForm(ModelForm):
     class Meta:
@@ -19,3 +19,16 @@ class AdressForm(ModelForm):
         object.store = store
         object.save()
         return object
+
+
+class BikeForm(ModelForm):
+    class Meta:
+        model = Bike
+        exclude = ["owner"]
+
+    def saveBike(self, user):
+        object = super().save(commit=False)
+        object.owner = user
+        object.save()
+        return object
+
