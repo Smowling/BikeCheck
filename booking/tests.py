@@ -255,21 +255,25 @@ class BikeFormTest(TestCase):
         self.u = User.objects.create_user(**self.credentials)
 
     def test_bike_form(self):
+        user = User.objects.create(username="testUser")
         data = {
             "brand": "santa",
             "model": "nomad",
             "year": 2024,
-            "sn": "test_sn"
+            "sn": "test_sn",
+            "owner": user
         }
         form = BikeForm(data=data)
         self.assertTrue(form.is_valid())
 
     def test_bike_form_incorrect(self):
+        user = User.objects.create(username="testUser")
         data = {
             "brand": "santa",
             "model": "nomad",
-            "year": 2024,
-            "sn": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" 
+            "year": 202,
+            "sn": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+            "owner": user
             }
         form = AdressForm(data=data)
         self.assertFalse(form.is_valid())
