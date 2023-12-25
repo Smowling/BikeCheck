@@ -245,3 +245,31 @@ class AdressFormTest(TestCase):
             }
         form = AdressForm(data=data)
         self.assertFalse(form.is_valid())
+
+
+class BikeFormTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+                    'username': 'testuser',
+                    'password': 'secret'}
+        self.u = User.objects.create_user(**self.credentials)
+
+    def test_bike_form(self):
+        data = {
+            "brand": "santa",
+            "model": "nomad",
+            "year": 2024,
+            "sn": "test_sn"
+        }
+        form = BikeForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_bike_form_incorrect(self):
+        data = {
+            "brand": "santa",
+            "model": "nomad",
+            "year": 2024,
+            "sn": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" 
+            }
+        form = AdressForm(data=data)
+        self.assertFalse(form.is_valid())
