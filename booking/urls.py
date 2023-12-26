@@ -8,6 +8,7 @@ urlpatterns = [
     path (f'login/', views.login_view, name="login"),
     path (f'register/', views.register, name="register"),
     path (f'logout/', views.logout_view, name="logout"),
-    path (f'settings/', views.user_settings, name="settings")
-    
+    path (f'settings/', views.user_settings, name="settings"),
+    path (f'<str:user_login>/', views.user_details, name="user_details"),
+      
 ]

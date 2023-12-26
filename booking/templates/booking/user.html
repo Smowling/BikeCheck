@@ -1,0 +1,22 @@
+{% extends "booking/layout.html" %}
+
+{% block body %}
+
+<p>SETTINGS</p>
+    <h2>Adress</h2>
+    {% for adres in adresses %}
+    <div class="adress"><p>
+        {{ adres.city }}
+        {{ adres.street }} 
+        {{ adres.street_number }} 
+        {{ adres.postcode }}
+    </p></div>
+    {% endfor %}
+    <h2>Bikes</h2>
+    {% for bike in bikes %}
+      {{ bike.brand }}
+      {{ bike.model }}
+      {{ bike.year }}
+      {{ bike.sn }}
+    {% endfor %}
+{% endblock %}

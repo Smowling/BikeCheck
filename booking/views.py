@@ -41,13 +41,22 @@ def user_settings(request):
     if not form.is_valid():
         return render(request, 'booking/settings.html', {"form": form})
 
-    # all good, save redirect
     user = User.objects.get(id = request.user.id)
-    auction = form.saveUser(user)
+    adress = form.saveUser(user)
     return HttpResponseRedirect(reverse("settings"))
     
     return render(request, 'booking/settings.html')
 
+@login_required
+def user_details(request, user_login):
+    user = User.objects.get(username = user_login)
+    details = {}
+    adresses = Adress.objects.filter(user = user)
+    details['adresses'] = adresses
+    bikes = Bike.objects.filter(owner = user)
+    details['bikes'] = bikes
+
+    return render(request, 'booking/user.html', details)
 
 def login_view(request):
     if request.method == "POST":
