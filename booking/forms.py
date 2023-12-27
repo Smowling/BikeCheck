@@ -26,7 +26,7 @@ class BikeForm(ModelForm):
         model = Bike
         exclude = ["owner"]
 
-    def saveBike(self, user):
+    def save(self, user):
         object = super().save(commit=False)
         object.owner = user
         object.save()
