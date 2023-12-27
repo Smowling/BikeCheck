@@ -51,7 +51,7 @@ def user_settings(request):
 def user_details(request, user_login):
     
     user = User.objects.get(username = user_login)
-    if request.user is not user: 
+    if request.user.username is not user.username: 
         return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
 
     details = {}
