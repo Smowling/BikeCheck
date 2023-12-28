@@ -10,5 +10,8 @@ urlpatterns = [
     path (f'logout/', views.logout_view, name="logout"),
     path (f'settings/', views.user_settings, name="settings"),
     path (f'<str:user_login>/', views.user_details, name="user_details"),
+    path (f'<str:user_login>/bikedelete/<int:id>/', views.bikedelete, name="bikedelete"),
+    path (f'<str:user_login>/adressdelete/<int:id>/', views.adressdelete, name="adressdelete"),
+    
       
 ]

@@ -107,5 +107,16 @@ def register(request):
     else:
         return render(request, "booking/register.html")
 
+@login_required
+def bikedelete(request, user_login, id):
+    bike = Bike.objects.get(id = id)
+    bike.delete()
+    return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": user_login}))
 
+
+@login_required
+def adressdelete(request, user_login, id):
+    adress = Adress.objects.get(id = id)
+    adress.delete()
+    return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": user_login}))
 

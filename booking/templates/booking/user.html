@@ -10,6 +10,7 @@
         {{ adres.street }} 
         {{ adres.street_number }} 
         {{ adres.postcode }}
+        <a href="adressdelete/{{ adres.id }}">Delete</a>
     </p></div>
     {% endfor %}
     <h2>Bikes</h2>
@@ -18,5 +19,6 @@
       {{ bike.model }}
       {{ bike.year }}
       {{ bike.sn }}
+        <a href="bikedelete/{{ bike.id }}">Delete</a>
     {% endfor %}
 {% endblock %}
