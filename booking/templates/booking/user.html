@@ -10,15 +10,19 @@
         {{ adres.street }} 
         {{ adres.street_number }} 
         {{ adres.postcode }}
+        <a href="adressedit/{{ adres.id }}">Edit</a>
         <a href="adressdelete/{{ adres.id }}">Delete</a>
     </p></div>
     {% endfor %}
+    <a href="adressadd">Add</a>
     <h2>Bikes</h2>
     {% for bike in bikes %}
       {{ bike.brand }}
       {{ bike.model }}
       {{ bike.year }}
       {{ bike.sn }}
+        <a href="bikeedit/{{ bike.id }}">Edit</a>
         <a href="bikedelete/{{ bike.id }}">Delete</a>
     {% endfor %}
+    <a href="bikeadd">Add</a>
 {% endblock %}
