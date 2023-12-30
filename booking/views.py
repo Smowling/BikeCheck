@@ -110,6 +110,8 @@ def register(request):
 @login_required
 def bikedelete(request, user_login, id):
     bike = Bike.objects.get(id = id)
+    if user_login != bike.owner:
+        return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": user_login}))
     bike.delete()
     return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": user_login}))
 
@@ -117,6 +119,8 @@ def bikedelete(request, user_login, id):
 @login_required
 def adressdelete(request, user_login, id):
     adress = Adress.objects.get(id = id)
+    if user_login != adress.user.username:    
+        return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": adress.user.username}))
     adress.delete()
     return HttpResponseRedirect(reverse('user_details', kwargs={"user_login": user_login}))
 
