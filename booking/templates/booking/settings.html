@@ -13,7 +13,7 @@
     </p></div>
     {% endfor %}
     
-    <form class="forms" method="POST" action="{% url 'settings' %}">
+    <form class="forms" method="POST" action="{% url 'add_address' user_login=user.username %}">
         {{ form }}
         {% csrf_token %}
         <input type="submit" value="Submit">

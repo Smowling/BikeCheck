@@ -27,7 +27,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 @login_required
-def user_settings(request):
+def add_address(request, user_login):
     details = {
         "form": AdressForm(),
     }
