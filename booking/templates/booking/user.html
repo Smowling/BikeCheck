@@ -4,6 +4,14 @@
 
 <p>SETTINGS</p>
     <h2>Adress</h2>
+
+    {% if form %}
+
+    {% include 'add_address.html' %}
+ 
+    {% else %}
+
+    
     {% for adres in adresses %}
     <div class="adress"><p>
         {{ adres.city }}
@@ -25,4 +33,5 @@
         <a href="bikedelete/{{ bike.id }}">Delete</a>
     {% endfor %}
     <a href="bikeadd">Add</a>
+    {% endif %}
 {% endblock %}

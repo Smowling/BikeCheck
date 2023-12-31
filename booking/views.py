@@ -49,12 +49,14 @@ def add_address(request, user_login):
 
 @login_required
 def user_details(request, user_login):
-    
+    details = {}
+    if request.method == "POST":
+        details["form"] = AddressForm()
+        
     user = User.objects.get(username = user_login)
     if request.user.username is not user.username: 
         return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
 
-    details = {}
     adresses = Adress.objects.filter(user = user)
     details['adresses'] = adresses
     bikes = Bike.objects.filter(owner = user)
