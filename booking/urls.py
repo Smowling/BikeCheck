@@ -11,6 +11,7 @@ urlpatterns = [
     path (f'<str:user_login>/add_address/', views.add_address, name="add_address"),
     path (f'<str:user_login>/', views.user_details, name="user_details"),
     path (f'<str:user_login>/bikedelete/<int:id>/', views.bikedelete, name="bikedelete"),
+    path (f'<str:user_login>/user_details_add_address', views.user_details_add_address, name="user_add_address"),
     path (f'<str:user_login>/adressdelete/<int:id>/', views.adressdelete, name="adressdelete"),
     
       

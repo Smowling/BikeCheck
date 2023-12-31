@@ -35,24 +35,21 @@ def add_address(request, user_login):
         adress = Adress.objects.filter(user=request.user)
         if adress:
             details["adress"] = adress
-        return render(request, 'booking/settings.html', details )
+        return render(request, 'booking/user.html', details )
 
     form = AdressForm(request.POST)
     if not form.is_valid():
-        return render(request, 'booking/settings.html', {"form": form})
+        return render(request, 'booking/user.html', {"form": form})
 
     user = User.objects.get(id = request.user.id)
     adress = form.saveUser(user)
-    return HttpResponseRedirect(reverse("settings"))
+    return HttpResponseRedirect(reverse("add_address", kwargs={"user_login": request.user.username}))
     
-    return render(request, 'booking/settings.html')
+    return render(request, 'booking/user.html')
 
 @login_required
 def user_details(request, user_login):
     details = {}
-    if request.method == "POST":
-        details["form"] = AddressForm()
-        
     user = User.objects.get(username = user_login)
     if request.user.username is not user.username: 
         return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
@@ -63,6 +60,17 @@ def user_details(request, user_login):
     details['bikes'] = bikes
 
     return render(request, 'booking/user.html', details)
+
+@login_required
+def user_details_add_address(request, user_login):
+    details = {}
+    details["form"] = AdressForm()
+    user = User.objects.get(username = user_login)
+    if request.user.username is not user.username: 
+        return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
+    
+    return render(request, 'booking/user.html', details)
+
 
 def login_view(request):
     if request.method == "POST":
