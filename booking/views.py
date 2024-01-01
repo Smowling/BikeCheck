@@ -117,6 +117,7 @@ def register(request):
     else:
         return render(request, "booking/register.html")
 
+
 @login_required
 def bikedelete(request, user_login, id):
     bike = Bike.objects.get(id = id)
