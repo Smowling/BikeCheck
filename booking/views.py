@@ -21,10 +21,12 @@ def details(request, store_name):
     details = {'store_name': store.name, 'store': store}
     return render(request, 'booking/details.html', details)
 
+
 @login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 @login_required
 def add_address(request, user_login):
@@ -35,41 +37,39 @@ def add_address(request, user_login):
         adress = Adress.objects.filter(user=request.user)
         if adress:
             details["adress"] = adress
-        return render(request, 'booking/user.html', details )
+        return render(request, 'booking/account.html', details )
 
     form = AdressForm(request.POST)
     if not form.is_valid():
-        return render(request, 'booking/user.html', {"form": form})
+        return render(request, 'booking/account.html', {"form": form})
 
     user = User.objects.get(id = request.user.id)
     adress = form.saveUser(user)
     return HttpResponseRedirect(reverse("add_address", kwargs={"user_login": request.user.username}))
     
-    return render(request, 'booking/user.html')
+    return render(request, 'booking/account.html')
 
 @login_required
-def user_details(request, user_login):
+def account(request):
     details = {}
-    user = User.objects.get(username = user_login)
+    user = User.objects.get(id = request.user.id)
     if request.user.username is not user.username: 
-        return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
+        return HttpResponseRedirect(reverse("account"))
 
     adresses = Adress.objects.filter(user = user)
     details['adresses'] = adresses
     bikes = Bike.objects.filter(owner = user)
     details['bikes'] = bikes
 
-    return render(request, 'booking/user.html', details)
+    return render(request, 'booking/account.html', details)
 
 @login_required
 def user_details_add_address(request, user_login):
     details = {}
     details["form"] = AdressForm()
     user = User.objects.get(username = user_login)
-    if request.user.username is not user.username: 
-        return HttpResponseRedirect(reverse("user_details", kwargs={"user_login": request.user.username}))
     
-    return render(request, 'booking/user.html', details)
+    return render(request, 'booking/account.html', details)
 
 
 def login_view(request):
