@@ -32,7 +32,7 @@ class Contact(models.Model):
         return f"phone: {self.phone}, email: {self.email}"
 
 
-class Adress(models.Model):
+class Address(models.Model):
     city = models.CharField(max_length=80)
     street = models.CharField(max_length=100)
     street_number = models.CharField(max_length=10)

@@ -1,10 +1,10 @@
 from django.forms import ModelForm
 
-from .models import Adress, Bike
+from .models import Address, Bike
 
-class AdressForm(ModelForm):
+class AddressForm(ModelForm):
     class Meta:
-        model = Adress
+        model = Address
         # fields = ["title", "description", "category", "picture", "price"]
         exclude = ["user", "store"]
 

@@ -3,13 +3,13 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import JsonResponse
-from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+from django.http import JsonResponse, HttpResponseForbidden
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Store, User, Bike, Adress
-from .forms import AdressForm
+from .models import Store, User, Bike, Address
+from .forms import AddressForm
 
 def index(request):
     stores = Store.objects.all()
@@ -18,8 +18,8 @@ def index(request):
 
 def details(request, store_name):
     store = Store.objects.get(name=store_name)
-    details = {'store_name': store.name, 'store': store}
-    return render(request, 'booking/details.html', details)
+    context = {'store_name': store.name, 'store': store}
+    return render(request, 'booking/context.html', context)
 
 
 @login_required
@@ -30,46 +30,61 @@ def logout_view(request):
 
 @login_required
 def add_address(request):
-    details = {
-        "form": AdressForm(),
+    context = {
+        "form": AddressForm(request.POST or None),
     }
     if request.method == "GET":
-        adress = Adress.objects.filter(user=request.user)
+        adress = Address.objects.filter(user=request.user)
         if adress:
-            details["adress"] = adress
-        return render(request, 'booking/account.html', details )
+            context["adress"] = adress
+        return render(request, 'booking/account.html', context )
 
-    form = AdressForm(request.POST)
+    form = AddressForm(request.POST)
     if not form.is_valid():
         return render(request, 'booking/account.html', {"form": form})
 
     user = User.objects.get(id = request.user.id)
     adress = form.saveUser(user)
-    return HttpResponseRedirect(reverse("add_address"))
-    
-    return render(request, 'booking/account.html')
+    return HttpResponseRedirect(reverse("account"))
+
+
+@login_required
+def edit_address(request, id=None, template = 'booking/account.html'):
+    if id:
+        address = get_object_or_404(Address, pk=id)
+        if address.user.id != request.user.id:
+            return HttpResponseForbidden()
+    form = AddressForm(request.POST or None, instance=address)
+    if request.POST and form.is_valid():
+        form.saveUser(request.user)
+        return redirect(reverse('account'))
+    context = {}
+    context["form"] = form
+    return render(request, template, context)
+
 
 @login_required
 def account(request):
-    details = {}
+    context = {}
     user = User.objects.get(id = request.user.id)
-    if request.user.username is not user.username: 
-        return HttpResponseRedirect(reverse("account"))
+    # if request.user.username is not user.username: 
+    #     return HttpResponseRedirect(reverse("account"))
 
-    adresses = Adress.objects.filter(user = user)
-    details['adresses'] = adresses
+    adresses = Address.objects.filter(user = user)
+    context['addresses'] = adresses
     bikes = Bike.objects.filter(owner = user)
-    details['bikes'] = bikes
+    context['bikes'] = bikes
 
-    return render(request, 'booking/account.html', details)
+    return render(request, 'booking/account.html', context)
+
 
 @login_required
-def user_details_add_address(request):
-    details = {}
-    details["form"] = AdressForm()
+def user_context_add_address(request):
+    context = {}
+    context["form"] = AddressForm()
     user = User.objects.get(id = request.user.id)
     
-    return render(request, 'booking/account.html', details)
+    return render(request, 'booking/account.html', context)
 
 
 def login_view(request):
@@ -85,8 +100,8 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            details = {"message": "Invalid email and/or password."}
-            return render(request, "booking/login.html", details)
+            context = {"message": "Invalid email and/or password."}
+            return render(request, "booking/login.html", context)
     else:
         return render(request, "booking/login.html")
 
@@ -100,8 +115,8 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            details = {"message": "Passwords must match."}
-            return render(request, "booking/register.html", details)
+            context = {"message": "Passwords must match."}
+            return render(request, "booking/register.html", context)
 
         # Attempt to create new user
         try:
@@ -109,8 +124,8 @@ def register(request):
             user.save()
         except IntegrityError as e:
             print(e)
-            details = {"message": "Email address already taken."}
-            return render(request, "booking/register.html", details)
+            context = {"message": "Email address already taken."}
+            return render(request, "booking/register.html", context)
         
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
@@ -120,14 +135,18 @@ def register(request):
 
 @login_required
 def bikedelete(request, id):
-    bike = Bike.objects.get(id = id)
+    bike = get_object_or_404(Bike, pk=id)
+    if bike.owner.id != request.user.id:
+        return HttpResponseForbidden()
     bike.delete()
     return HttpResponseRedirect(reverse('account'))
 
 
 @login_required
 def addressdelete(request, id):
-    address = Adress.objects.get(id = id)
+    address = get_object_or_404(Address, pk=id)
+    if address.user.id != request.user.id:
+        return HttpResponseForbidden()
     address.delete()
     return HttpResponseRedirect(reverse('account'))
 

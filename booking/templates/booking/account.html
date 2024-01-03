@@ -3,25 +3,27 @@
 {% block body %}
 
 <p>SETTINGS</p>
-    <h2>Adress</h2>
 
     {% if form %}
 
-    {% include 'add_address.html' %}
+    <h2>Adress</h2>
+    {% include 'booking/add_address.html' %}
  
     {% else %}
-
+    <div>
+    <h2>Adress</h2>
+    <a href="add_address">Add</a>
+    </div>
     {% for address in addresses %}
     <div class="address"><p>
         {{ address.city }}
         {{ address.street }} 
         {{ address.street_number }} 
         {{ address.postcode }}
-        <a href="addressedit/{{ address.id }}">Edit</a>
+        <a href="edit_address/{{ address.id }}">Edit</a>
         <a href="addressdelete/{{ address.id }}">Delete</a>
     </p></div>
     {% endfor %}
-    <a href="add_address">Add</a>
     <h2>Bikes</h2>
     {% for bike in bikes %}
       {{ bike.brand }}
