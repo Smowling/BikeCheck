@@ -29,7 +29,7 @@ def logout_view(request):
 
 
 @login_required
-def add_address(request, user_login):
+def add_address(request):
     details = {
         "form": AdressForm(),
     }
@@ -45,7 +45,7 @@ def add_address(request, user_login):
 
     user = User.objects.get(id = request.user.id)
     adress = form.saveUser(user)
-    return HttpResponseRedirect(reverse("add_address", kwargs={"user_login": request.user.username}))
+    return HttpResponseRedirect(reverse("add_address"))
     
     return render(request, 'booking/account.html')
 
@@ -64,10 +64,10 @@ def account(request):
     return render(request, 'booking/account.html', details)
 
 @login_required
-def user_details_add_address(request, user_login):
+def user_details_add_address(request):
     details = {}
     details["form"] = AdressForm()
-    user = User.objects.get(username = user_login)
+    user = User.objects.get(id = request.user.id)
     
     return render(request, 'booking/account.html', details)
 
@@ -126,8 +126,8 @@ def bikedelete(request, id):
 
 
 @login_required
-def adressdelete(request, id):
-    adress = Adress.objects.get(id = id)
-    adress.delete()
+def addressdelete(request, id):
+    address = Adress.objects.get(id = id)
+    address.delete()
     return HttpResponseRedirect(reverse('account'))
 

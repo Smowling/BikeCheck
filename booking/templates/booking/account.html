@@ -11,14 +11,14 @@
  
     {% else %}
 
-    {% for adres in adresses %}
-    <div class="adress"><p>
-        {{ adres.city }}
-        {{ adres.street }} 
-        {{ adres.street_number }} 
-        {{ adres.postcode }}
-        <a href="adressedit/{{ adres.id }}">Edit</a>
-        <a href="adressdelete/{{ adres.id }}">Delete</a>
+    {% for address in addresses %}
+    <div class="address"><p>
+        {{ address.city }}
+        {{ address.street }} 
+        {{ address.street_number }} 
+        {{ address.postcode }}
+        <a href="addressedit/{{ address.id }}">Edit</a>
+        <a href="addressdelete/{{ address.id }}">Delete</a>
     </p></div>
     {% endfor %}
     <a href="add_address">Add</a>

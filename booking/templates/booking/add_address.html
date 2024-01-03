@@ -1,4 +1,5 @@
-    <form class="forms" method="POST" action="{% url 'add_address' user_login=user.username %}">
+{% load i18n %}
+   <form class="forms" method="POST" action="{% url 'add_address' %}">
         {{ form }}
         {% csrf_token %}
         <input type="submit" value="Submit">
