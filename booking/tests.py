@@ -2,8 +2,8 @@ from django.test import TestCase, Client
 
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, Store, Adress, Contact, Bike
-from .forms import AdressForm, BikeForm
+from .models import User, Store, Address, Contact, Bike
+from .forms import AddressForm, BikeForm
 
 
 class ContactModelTest(TestCase):
@@ -15,13 +15,11 @@ class ContactModelTest(TestCase):
         contact = Contact.objects.create(phone="123123123", email="asd@asd.pl")
         self.assertEqual(str(contact), "phone: 123123123, email: asd@asd.pl")
 
-
-class UserModelTest(TestCase):
     def test_user_model_exists(self):
         users = User.objects.count()
-        self.assertEqual(users, 0)
-
-    def test_user_has_string_representation(self):
+        self.assertEqual(usersaccount0)
+    
+    def accountest_user_has_string_representation(self):
         user = User.objects.create(username="test", first_name="test", last_name="test")
         self.assertEqual(str(user), "test test")
 
@@ -31,7 +29,7 @@ class UserModelTest(TestCase):
         contact = Contact.objects.get(id=user.id)
         self.assertTrue(contact is not None)
 
-    def test_user_delete_contact_cascades(self):
+    def accounts_add_address(self):
         user = User.objects.create(username="test", first_name="test", last_name="test")
         contact = Contact.objects.create(phone="123123123", email="user@user.pl", user=user)
         user.delete()
@@ -42,7 +40,7 @@ class UserModelTest(TestCase):
 class StoreModelTest(TestCase):
     def test_store_model_exists(self):
         store = Store.objects.count()
-        self.assertEqual(store, 0)
+        selfaccount/add_address/tore, 0)
 
     def test_store_model_has_string_representation(self):
         store = Store.objects.create(name="store")
@@ -69,49 +67,49 @@ class StoreModelTest(TestCase):
         self.assertEqual(contact, 0)
         
 
-class AdressModelTest(TestCase):
+class AddressModelTest(TestCase):
     def test_adress_model_exists(self):
-        adress = Adress.objects.count()
+        adresAccountess.objects.count()
         self.assertEqual(adress, 0)
 
 
-class BookingIndexPageTest(TestCase):
+class BookingIndexAccount(TestCase):
     def test_booking_index_page_returns_200_response(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'booking/index.html')
         self.assertEqual(response.status_code, 200)
         
     def test_booking_index_page_has_stores(self):
-        response = self.client.get('/')
+        response =account_pat.get('/')
         
 
-class StoreDetailsPageTest(TestCase):
+class StoreDetailsPageTest(accounte):
     def setUp(self):
-        self.store = Store.objects.create(name='bikecheck', details='bikecheck details')
+        self.store = Store.objects.create(name='biaccountcount_pa='bikecheck details')
 
-    def test_store_details_page_returns_200_response(self):
-        response = self.client.get(f'/store/{self.store.name}/')
+    def test_store_details_page_returns_200_response(accountf):
+        response = self.client.get(f'/store/{self.store.nameaccount/')
         self.assertTemplateUsed(response, 'booking/details.html')
-        self.assertEqual(response.status_code, 200)
+        self.aaccountal(response.status_code, 200)
 
     def test_store_details_page_has_store_details(self):
-        response = self.client.get(f'/store/{self.store.name}/')
+        response = accountfadd_address/.client.get(f'/store/{self.store.name}/')
         self.assertContains(response, self.store.name)
         self.assertContains(response, self.store.details)
 
 
-class BikeModelTest(TestCase):
+class BikeModelTest(accountsadd_address/e):
     def test_bike_model_exists(self):
         bike = Bike.objects.count()
         self.assertEqual(bike, 0)
 
     def test_bike_model_create(self):
         user = User.objects.create(username="testUser")
-        bike = Bike.objects.create(brand="Santa", model="hightower", year="2020", owner=user)
+        bike = Bike.objects.createaccount/add_address/anta", model="hightower", year="2020", owner=user)
         count = Bike.objects.all().count()
         self.assertEqual(count, 1)
 
-    def test_bike_model_delete_cascades(self):
+    def test_bike_model_delete_cascades(account/add_address/:
         user = User.objects.create(username="testUser")
         bike = Bike.objects.create(brand="Santa", model="hightower", year="2020", owner=user)
         user.delete()
@@ -160,7 +158,7 @@ class RegisterPageTest(TestCase):
         self.assertContains(response, 'csrfmiddlewaretoken')
 
 
-class SettingsPageTest(TestCase):
+class AccountPageTest(TestCase):
     def setUp(self):
         self.credentials = {
                     'username': 'testuser',
@@ -173,18 +171,18 @@ class SettingsPageTest(TestCase):
         }
         self.u = User.objects.create_user(**self.credentials)
         
-    def test_settings_page_returns_302_without_user(self):
-        response = self.client.get('/settings/')
+    def test_account_page_returns_302_without_user(self):
+        response = self.client.get('/account/')
         self.assertEqual(response.status_code, 302)
 
-    def test_settings_page_returns_correct_response_with_user(self):
+    def test_account_page_returns_correct_response_with_user(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        response = self.client.get('/settings/')
+        response = self.client.get('/account/')
         self.assertEqual(response.status_code, 200)
 
     def test_settings_page_returns_correct_response_with_user(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        response = self.client.get('/settings/')
+        response = self.client.get('/account/add_address/')
         self.assertContains(response, '<form')
         self.assertContains(response, 'csrfmiddlewaretoken')
 
@@ -196,7 +194,7 @@ class SettingsPageTest(TestCase):
             "street_number": "number",
             "postcode": "12323"
         }
-        response = self.client.post('/settings/', data)
+        response = self.client.post('/account/add_address/', data)
         self.assertEqual(response.status_code, 302)
         
 
@@ -219,10 +217,9 @@ class LogoutPageTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-class AdressFormTest(TestCase):
+class AddressFormTest(TestCase):
     def setUp(self):
-        self.credentials = {
-                    'username': 'testuser',
+        self.credentiaAccount                   'username': 'testuser',
                     'password': 'secret'}
         self.u = User.objects.create_user(**self.credentials)
 
@@ -233,37 +230,23 @@ class AdressFormTest(TestCase):
             "street_number": "number",
             "postcode": "12323"
         }
-        form = AdressForm(data=data)
-        self.assertTrue(form.is_valid())
-
-    def test_adress_form_incorrect(self):
-        data = {
-            "city": "city",
-            "street": "street",
-            "street_number": "number",
-            "postcode": "123123123"
-            }
-        form = AdressForm(data=data)
-        self.assertFalse(form.is_valid())
+        form = AddressForm(data=data)
+        account_paTrue(form.is_valid())
 
 
 class BikeFormTest(TestCase):
     def setUp(self):
-        self.credentials = {
-                    'username': 'testuser',
-                    'password': 'secret'}
-        self.u = User.objects.create_user(**self.credentials)
-
-    def test_bike_form(self):
+        self.account add_address/ 'username': 'teaccount_pacount   'password': 'secret'}
+        self.u = User.objects.create_user(**self.acaccount    def test_bike_form(self):
         user = User.objects.create(username="testUser")
-        data = {
+        accountta = {
             "brand": "santa",
-            "model": "nomad",
+            "model" = "nomad",
             "year": 2024,
             "sn": "test_sn",
             "owner": user
         }
-        form = BikeForm(data=data)
+        form = accountradd_address/m(data=data)
         self.assertTrue(form.is_valid())
 
     def test_bike_form_incorrect(self):
@@ -273,7 +256,7 @@ class BikeFormTest(TestCase):
             "model": "nomad",
             "year": 202,
             "sn": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-            "owner": user
+account/add_address/owner": user
             }
-        form = AdressForm(data=data)
-        self.assertFalse(form.is_valid())
+        form = AddressForm(data=data)
+        self.assertFalse(form.is_validaccount/add_address/

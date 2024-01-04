@@ -19,7 +19,7 @@ def index(request):
 def details(request, store_name):
     store = Store.objects.get(name=store_name)
     context = {'store_name': store.name, 'store': store}
-    return render(request, 'booking/context.html', context)
+    return render(request, 'booking/details.html', context)
 
 
 @login_required
