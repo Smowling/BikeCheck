@@ -17,7 +17,7 @@ class ContactModelTest(TestCase):
 
     def test_user_model_exists(self):
         users = User.objects.count()
-        self.assertEqual(usersaccount0)
+        self.assertEqual(users, 0)
     
     def accountest_user_has_string_representation(self):
         user = User.objects.create(username="test", first_name="test", last_name="test")
@@ -69,8 +69,8 @@ class StoreModelTest(TestCase):
 
 class AddressModelTest(TestCase):
     def test_adress_model_exists(self):
-        adresAccountess.objects.count()
-        self.assertEqual(adress, 0)
+        address = Address.objects.count()
+        self.assertEqual(address, 0)
 
 
 class BookingIndexAccount(TestCase):
@@ -80,7 +80,8 @@ class BookingIndexAccount(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_booking_index_page_has_stores(self):
-        response =account_pat.get('/')
+        response = self.client.get('/')
+
         
 
 class StoreDetailsPageTest(TestCase):
@@ -93,7 +94,7 @@ class StoreDetailsPageTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_store_details_page_has_store_details(self):
-        response = client.get(f'/store/{self.store.name}/')
+        response = self.client.get(f'/store/{self.store.name}/')
         self.assertContains(response, self.store.name)
         self.assertContains(response, self.store.details)
 
@@ -228,9 +229,10 @@ class AddressFormTest(TestCase):
             "city": "city",
             "street": "street",
             "street_number": "number",
-            "postcode": "12323"
+            "postcode": "12323",
+            "user": self.u
         }
         form = AddressForm(data=data)
-        account_paTrue(form.is_valid())
+        self.assertTrue(form.is_valid())
 
 
