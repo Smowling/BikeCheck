@@ -1,6 +1,20 @@
 {% load i18n %}
+
+    
+    {% if addressform %}
    <form class="forms" method="POST" action="{% url 'add_address' %}">
-        {{ form }}
+        {{ addressform }}
         {% csrf_token %}
         <input type="submit" value="Submit">
     </form>
+
+    {% elif bikeform %}
+   <form class="forms" method="POST" action="{% url 'add_bike' %}">
+        {{ bikeform }}
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+
+    {% else %}
+    <p>error</p>
+    {% endif %}

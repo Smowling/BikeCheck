@@ -10,7 +10,9 @@ urlpatterns = [
     path (f'logout/', views.logout_view, name="logout"),
     path (f'account/', views.account, name="account"),
     path (f'account/add_address/', views.add_address, name="add_address"),
+    path (f'account/add_bike/', views.add_bike, name="add_bike"),
     path (f'account/edit_address/<int:id>', views.edit_address, name="edit_address"),
+    path (f'account/edit_bike/<int:id>', views.edit_bike, name="edit_bike"),
     path (f'account/bikedelete/<int:id>/', views.bikedelete, name="bikedelete"),
     path (f'account/addressdelete/<int:id>/', views.addressdelete, name="addressdelete"),
     

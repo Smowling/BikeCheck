@@ -4,11 +4,16 @@
 
 <p>SETTINGS</p>
 
-    {% if form %}
+    {% if addressform %}
 
     <h2>Adress</h2>
     {% include 'booking/add_address.html' %}
  
+    {% elif bikeform %}
+    <h2>Bike</h2>
+    {% include 'booking/add_address.html' %}
+
+    
     {% else %}
     <div>
     <h2>Adress</h2>
@@ -30,9 +35,9 @@
       {{ bike.model }}
       {{ bike.year }}
       {{ bike.sn }}
-        <a href="bikeedit/{{ bike.id }}">Edit</a>
+        <a href="edit_bike/{{ bike.id }}">Edit</a>
         <a href="bikedelete/{{ bike.id }}">Delete</a>
     {% endfor %}
-    <a href="bikeadd">Add</a>
+    <a href="add_bike">Add</a>
     {% endif %}
 {% endblock %}

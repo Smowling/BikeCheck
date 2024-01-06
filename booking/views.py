@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Store, User, Bike, Address
-from .forms import AddressForm
+from .forms import AddressForm, BikeForm
 
 def index(request):
     stores = Store.objects.all()
@@ -31,20 +31,39 @@ def logout_view(request):
 @login_required
 def add_address(request):
     context = {
-        "form": AddressForm(request.POST or None),
+        "addressform": AddressForm(request.POST or None),
     }
     if request.method == "GET":
-        adress = Address.objects.filter(user=request.user)
+        adress = Address.objects.filter(user = request.user)
         if adress:
             context["adress"] = adress
         return render(request, 'booking/account.html', context )
 
     form = AddressForm(request.POST)
     if not form.is_valid():
-        return render(request, 'booking/account.html', {"form": form})
+        return render(request, 'booking/account.html', {"addressform": form})
 
     user = User.objects.get(id = request.user.id)
     adress = form.saveUser(user)
+    return HttpResponseRedirect(reverse("account"))
+
+
+@login_required
+def add_bike(request):
+    context = {
+        "bikeform": BikeForm(request.POST or None),
+            }
+    if request.method == "GET":
+        bike = Bike.objects.filter(owner = request.user)
+        if bike:
+            context["bike"] = bike
+        return render(request, 'booking/account.html', context)
+    form = BikeForm(request.POST)
+    if not form.is_valid():
+        return render(request, 'booking/account.html', {"bikeform": form})
+
+    user = User.objects.get(id = request.user.id)
+    bike = form.save(user)
     return HttpResponseRedirect(reverse("account"))
 
 
@@ -64,12 +83,24 @@ def edit_address(request, id=None, template = 'booking/account.html'):
 
 
 @login_required
+def edit_bike(request, id=None, template = 'booking/account.html'):
+    if id:
+        Bike = get_object_or_404(Bike, pk=id)
+        if Bike.owner.id != request.user.id:
+            return HttpResponseForbidden()
+    form = BikeForm(request.POST or None, instance=Bike)
+    if request.POST and form.is_valid():
+        form.save(request.user)
+        return redirect(reverse('account'))
+    context = {}
+    context["form"] = form
+    return render(request, template, context)
+
+
+@login_required
 def account(request):
     context = {}
     user = User.objects.get(id = request.user.id)
-    # if request.user.username is not user.username: 
-    #     return HttpResponseRedirect(reverse("account"))
-
     adresses = Address.objects.filter(user = user)
     context['addresses'] = adresses
     bikes = Bike.objects.filter(owner = user)

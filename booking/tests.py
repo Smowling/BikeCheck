@@ -81,7 +81,6 @@ class BookingIndexAccount(TestCase):
         
     def test_booking_index_page_has_stores(self):
         response = self.client.get('/')
-
         
 
 class StoreDetailsPageTest(TestCase):
@@ -181,7 +180,7 @@ class AccountPageTest(TestCase):
         response = self.client.get('/account/')
         self.assertEqual(response.status_code, 200)
 
-    def test_settings_page_returns_correct_response_with_user(self):
+    def test_addaddress_page_returns_correct_response_with_user(self):
         response = self.client.post('/login/', self.credentials, follow=True)
         response = self.client.get('/account/add_address/')
         self.assertContains(response, '<form')
@@ -189,12 +188,7 @@ class AccountPageTest(TestCase):
 
     def test_settings_page_add_address(self):
         response = self.client.post('/login/', self.credentials, follow=True)
-        data = {
-            "city": "city",
-            "street": "street",
-            "street_number": "number",
-            "postcode": "12323"
-        }
+        data = self.adress
         response = self.client.post('/account/add_address/', data)
         self.assertEqual(response.status_code, 302)
         
@@ -236,3 +230,19 @@ class AddressFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+class BikeFormTest(TestCase):
+    def setUp(self):
+        self.credentials = {'username': 'testuser',
+                    'password': 'secret'}
+        self.u = User.objects.create_user(**self.credentials)
+
+    def test_bike_form(self):
+        data = {
+            "brand": "santa",
+            "model": "hightower",
+            "year": 2022,
+            "sn": "test_sn",
+            "owner": self.u,
+        }
+        form = BikeForm(data=data)
+        self.assertTrue(form.is_valid())
