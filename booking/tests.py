@@ -191,7 +191,19 @@ class AccountPageTest(TestCase):
         data = self.adress
         response = self.client.post('/account/add_address/', data)
         self.assertEqual(response.status_code, 302)
-        
+
+    def test_account_page_add_bike(self):
+        response = self.client.post('/login/', self.credentials, follow=True)
+        data = {
+            "brand": "santa",
+            "model": "nomad",
+            "year": 2024,
+            "sn": "asdasd",
+            "owner": self.u
+        }
+        response = self.client.post('/account/add_bike/', data)
+        self.assertEqual(response.status_code, 302)
+
 
 class LogoutPageTest(TestCase):
     def setUp(self):
