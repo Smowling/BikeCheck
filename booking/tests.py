@@ -229,6 +229,17 @@ class AddressFormTest(TestCase):
         form = AddressForm(data=data)
         self.assertTrue(form.is_valid())
 
+    def test_adress_form_invalid(self):
+        data = {
+            "city": "city",
+            "street": "street",
+            "street_number": "number",
+            "postcode": "12323123",
+            "user": self.u
+        }
+        form = AddressForm(data=data)
+        self.assertFalse(form.is_valid())
+
 
 class BikeFormTest(TestCase):
     def setUp(self):
@@ -246,3 +257,15 @@ class BikeFormTest(TestCase):
         }
         form = BikeForm(data=data)
         self.assertTrue(form.is_valid())
+
+    def test_bike_form_invalid(self):
+        data = {
+            "brand": "santa",
+            "model": "hightower",
+            "year": 20222312,
+            "sn": "test_sn",
+            "owner": self.u,
+        }
+        form = BikeForm(data=data)
+        self.assertFalse(form.is_valid())
+
