@@ -78,7 +78,7 @@ def edit_address(request, id=None, template = 'booking/account.html'):
         form.saveUser(request.user)
         return redirect(reverse('account'))
     context = {}
-    context["form"] = form
+    context["addressform"] = form
     return render(request, template, context)
 
 
@@ -93,7 +93,7 @@ def edit_bike(request, id=None, template = 'booking/account.html'):
         form.save(request.user)
         return redirect(reverse('account'))
     context = {}
-    context["form"] = form
+    context["bikeform"] = form
     return render(request, template, context)
 
 
