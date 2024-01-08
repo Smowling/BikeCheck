@@ -85,10 +85,10 @@ def edit_address(request, id=None, template = 'booking/account.html'):
 @login_required
 def edit_bike(request, id=None, template = 'booking/account.html'):
     if id:
-        Bike = get_object_or_404(Bike, pk=id)
-        if Bike.owner.id != request.user.id:
+        bike = get_object_or_404(Bike, pk=id)
+        if bike.owner.id != request.user.id:
             return HttpResponseForbidden()
-    form = BikeForm(request.POST or None, instance=Bike)
+    form = BikeForm(request.POST or None, instance=bike)
     if request.POST and form.is_valid():
         form.save(request.user)
         return redirect(reverse('account'))

@@ -35,8 +35,8 @@
       {{ bike.model }}
       {{ bike.year }}
       {{ bike.sn }}
-        <a href="edit_bike/{{ bike.id }}">Edit</a>
-        <a href="bikedelete/{{ bike.id }}">Delete</a>
+        <a href="edit_bike/{{ bike.pk }}">Edit</a>
+        <a href="bikedelete/{{ bike.pk }}">Delete</a>
     {% endfor %}
     <a href="add_bike">Add</a>
     {% endif %}
