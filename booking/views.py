@@ -73,10 +73,12 @@ def edit_address(request, id=None, template = 'booking/account.html'):
         address = get_object_or_404(Address, pk=id)
         if address.user.id != request.user.id:
             return HttpResponseForbidden()
+
     form = AddressForm(request.POST or None, instance=address)
     if request.POST and form.is_valid():
         form.saveUser(request.user)
         return redirect(reverse('account'))
+
     context = {}
     context["addressform"] = form
     return render(request, template, context)
