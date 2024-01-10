@@ -36,7 +36,7 @@ def add_address(request):
     if request.method == "GET":
         adress = Address.objects.filter(user = request.user)
         if adress:
-            context["adress"] = adress
+            context["addresses"] = adress
         return render(request, 'booking/account.html', context )
 
     form = AddressForm(request.POST)
@@ -102,10 +102,10 @@ def edit_bike(request, id=None, template = 'booking/account.html'):
 @login_required
 def account(request):
     context = {}
-    user = User.objects.get(id = request.user.id)
-    adresses = Address.objects.filter(user = user)
+    # user = User.objects.get(id = request.user.id)
+    adresses = Address.objects.filter(user = request.user)
     context['addresses'] = adresses
-    bikes = Bike.objects.filter(owner = user)
+    bikes = Bike.objects.filter(owner = request.user)
     context['bikes'] = bikes
 
     return render(request, 'booking/account.html', context)
