@@ -30,40 +30,11 @@ def logout_view(request):
 
 @login_required
 def add_address(request):
-    context = {
-        "addressform": AddressForm(request.POST or None),
-    }
-    if request.method == "GET":
-        adress = Address.objects.filter(user = request.user)
-        if adress:
-            context["addresses"] = adress
-        return render(request, 'booking/account.html', context )
-
-    form = AddressForm(request.POST)
-    if not form.is_valid():
-        return render(request, 'booking/account.html', {"addressform": form})
-
-    user = User.objects.get(id = request.user.id)
-    adress = form.saveUser(user)
     return HttpResponseRedirect(reverse("account"))
 
 
 @login_required
 def add_bike(request):
-    context = {
-        "bikeform": BikeForm(request.POST or None),
-            }
-    if request.method == "GET":
-        bike = Bike.objects.filter(owner = request.user)
-        if bike:
-            context["bike"] = bike
-        return render(request, 'booking/account.html', context)
-    form = BikeForm(request.POST)
-    if not form.is_valid():
-        return render(request, 'booking/account.html', {"bikeform": form})
-
-    user = User.objects.get(id = request.user.id)
-    bike = form.save(user)
     return HttpResponseRedirect(reverse("account"))
 
 
@@ -102,22 +73,27 @@ def edit_bike(request, id=None, template = 'booking/account.html'):
 @login_required
 def account(request):
     context = {}
-    # user = User.objects.get(id = request.user.id)
-    adresses = Address.objects.filter(user = request.user)
+    adresses = Address.objects.filter(user = request.user.id)
     context['addresses'] = adresses
-    bikes = Bike.objects.filter(owner = request.user)
+    bikes = Bike.objects.filter(owner = request.user.id)
     context['bikes'] = bikes
 
     return render(request, 'booking/account.html', context)
 
 
 @login_required
-def user_context_add_address(request):
-    context = {}
-    context["form"] = AddressForm()
-    user = User.objects.get(id = request.user.id)
+def account_address(request):
+    return render(request, 'booking/account.html')
+
+
+@login_required
+def account_bike(request):
+    return render(request, 'booking/account.html')
     
-    return render(request, 'booking/account.html', context)
+
+@login_required
+def account_favourite(request):
+    return render(request, 'booking/account.html')
 
 
 def login_view(request):

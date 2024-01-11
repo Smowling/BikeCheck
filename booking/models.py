@@ -19,7 +19,7 @@ class Bike(models.Model):
     model = models.CharField(max_length=30)
     year = models.CharField(max_length=4)
     sn = models.CharField(max_length=30)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="bike_user", primary_key=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bike_user", primary_key=True)
 
 
 class Contact(models.Model):

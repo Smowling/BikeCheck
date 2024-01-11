@@ -15,6 +15,8 @@ urlpatterns = [
     path (f'account/edit_bike/<int:id>', views.edit_bike, name="edit_bike"),
     path (f'account/bikedelete/<int:id>/', views.bikedelete, name="bikedelete"),
     path (f'account/addressdelete/<int:id>/', views.addressdelete, name="addressdelete"),
-    
+    path (f'account/address/', views.account_address, name="account_address"),
+    path (f'account/bike/', views.account_bike, name="account_bike"),
+    path (f'account/favourite', views.account_favourite, name="account_favourite"),
       
 ]
