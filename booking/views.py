@@ -73,9 +73,9 @@ def edit_bike(request, id=None, template = 'booking/account.html'):
 @login_required
 def account(request):
     context = {}
-    adresses = Address.objects.filter(user = request.user.id)
+    adresses = Address.objects.filter(user = request.user)
     context['addresses'] = adresses
-    bikes = Bike.objects.filter(owner = request.user.id)
+    bikes = Bike.objects.filter(owner = request.user)
     context['bikes'] = bikes
 
     return render(request, 'booking/account.html', context)
@@ -93,6 +93,11 @@ def account_bike(request):
 
 @login_required
 def account_favourite(request):
+    return render(request, 'booking/account.html')
+
+
+@login_required
+def account_visits(request):
     return render(request, 'booking/account.html')
 
 

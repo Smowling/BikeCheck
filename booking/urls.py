@@ -18,5 +18,6 @@ urlpatterns = [
     path (f'account/address/', views.account_address, name="account_address"),
     path (f'account/bike/', views.account_bike, name="account_bike"),
     path (f'account/favourite', views.account_favourite, name="account_favourite"),
-      
+    path (f'account/visits', views.account_visits, name="account_visits"),
+          
 ]
